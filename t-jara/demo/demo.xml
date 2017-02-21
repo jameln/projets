@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="facture0" model="tjara.facture">
+            <field name="name">Fact-0001</field>
+            <field name="dateFact">01/01/2017 00:00:00</field>
+        </record>
+        
+        <record id="facture1" model="tjara.facture">
+            <field name="name">Fact-0002</field>
+            <field name="dateFact">02/01/2017 00:00:00</field>
+        </record>
+        <!--  -->
+        <!--   <record id="object2" model="t-jara.t-jara"> -->
+        <!--     <field name="name">Object 2</field> -->
+        <!--     <field name="value">20</field> -->
+        <!--   </record> -->
+        <!--  -->
+        <!--   <record id="object3" model="t-jara.t-jara"> -->
+        <!--     <field name="name">Object 3</field> -->
+        <!--     <field name="value">30</field> -->
+        <!--   </record> -->
+        <!--  -->
+        <!--   <record id="object4" model="t-jara.t-jara"> -->
+        <!--     <field name="name">Object 4</field> -->
+        <!--     <field name="value">40</field> -->
+        <!--   </record> -->
+        <!--  -->
+    </data>
+</odoo>

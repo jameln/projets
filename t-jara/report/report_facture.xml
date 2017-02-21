@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<report
+    id="facture_report"
+    model="tjara.facture"
+    string="Factures"
+    report_type="qweb-pdf"
+    name="t-jara.report_facture"
+    file="t-jara.report_facture"
+/>
+</data>
+</odoo>

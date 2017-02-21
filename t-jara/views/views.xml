@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="t-jara.list">
+      <field name="name">t-jara list</field>
+      <field name="model">t-jara.t-jara</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="t-jara.action_window">
+      <field name="name">t-jara window</field>
+      <field name="res_model">t-jara.t-jara</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="t-jara.action_server">
+      <field name="name">t-jara server</field>
+      <field name="model_id" ref="model_t-jara_t-jara"/>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="t-jara" id="t-jara.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="t-jara.menu_1" parent="t-jara.menu_root"/>
+    <menuitem name="Menu 2" id="t-jara.menu_2" parent="t-jara.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="t-jara.menu_1_list" parent="t-jara.menu_1"
+              action="t-jara.action_window"/>
+    <menuitem name="Server to list" id="t-jara" parent="t-jara.menu_2"
+              action="t-jara.action_server"/>
+    -->
+  </data>
+</odoo>

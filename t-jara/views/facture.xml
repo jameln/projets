@@ -1,0 +1,177 @@
+<odoo>
+  <data>
+
+    <record model="ir.actions.act_window" id="facture_list_action">
+        <field name="name">Factures</field>
+        <field name="res_model">tjara.facture</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Créer votre première facture</p>
+        </field>
+    </record>
+
+    <act_window id="action_group" name="Valider" src_model="tjara.facture" res_model="tjara.facturetemp" target="new" view_mode="form" key2="client_action_multi"/>
+    <record model="ir.ui.view" id="facturetemp_form_view">
+        <field name="name">facturetemp.form</field>
+        <field name="model">tjara.facturetemp</field>
+        <field name="arch" type="xml">
+            <form string="Facture Form">
+                <h2>Vous etes sur le point de ...</h2>
+                <button type="object" name="valider" string="OK"/>
+            </form>
+        </field>
+    </record>
+    <menuitem id="main_tjara_menu" name="T-Jara" groups="t-jara.tjara_group_facturation,t-jara.tjara_group_admin"/>
+    <menuitem id="tjara_menu" name="T-Jara" parent="main_tjara_menu"/>
+    <menuitem id="facture_menu" name="Factures" parent="tjara_menu" action="facture_list_action" sequence="3"/>
+    <menuitem id="client_menu" name="Clients" parent="tjara_menu" action="base.action_partner_form" sequence="1"/>
+    
+
+    <record model="ir.ui.view" id="facture_form_view">
+        <field name="name">facture.form</field>
+        <field name="model">tjara.facture</field>
+        <field name="arch" type="xml">
+            <form string="Facture Form">
+                <header string="Facture">
+                    <!--<button string="Valider la facture test" type="object" name="afficher" confirm="Etes vous sur?"/>-->
+                    <button type="object" name="fct_brouillon" states="an" string="Retour pour correction" class="oe_highlight"/>
+                    <button type="object" name="fct_valider" states="br" string="Valider la facture" class="oe_highlight"/>
+                    <button type="object" name="fct_annuler" states="br" string="Annuler la facture" class="oe_highlight"/>
+                    <button type="object" name="fct_payer" states="va" string="Marquer facture comme payee" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="br,va,pa,an" statusbar_colors="{'br':'white','va':'blue','an':'red','pa':'green'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button string="Imprimer" type="action"/>
+                    </div>
+                    <group>
+                        <field name="name" />
+                        <field name="client_id"/>
+                        <field name="dateFact"/>
+                        <field name="valid"/>
+                        <field name="description"/>
+                        <field name="attachment">
+                        <tree>
+                        	<field name="name"/>
+                        	<field name="datas_fname"/>
+                        	<field name="mimetype"/>
+                        	<field name="create_date"/>
+                        </tree>
+                        </field>
+                        
+                    </group>
+                    
+                    <notebook>
+                        <page string="Produits" class="oe_page_Title">
+                            <group>
+                                <!--<field name="produit_ids"/>-->
+                                <field name="lignes_id">
+                                    <tree editable="bottom">
+                                        <field name="produit" string="Produit"/>
+                                        <field name="quantite" string="Qte"/>
+                                        <field name="prix_total" string="Prix Total"/>
+                                    </tree>
+                                    <!--<form>
+                                        <field name="quantite" string="Qte"/>
+                                    </form>-->
+                                </field>
+                            </group>
+                            <group class="oe_subtotal_footer">
+                                <label string="Total HT"/><newline/>
+                                <label string="Total TVA"/><newline/>
+                                <label string="Total TTC" class="oe_subtotal_footer_separator"/><newline/>
+                                <label string="Timbre" style="margin-top: 10px"/><newline/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <div class="oe_read_only">
+                        <Label string="Facture crée par :" for="create_uid"/>
+                        <field name="create_uid"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="facture_tree_view">
+        <field name="name">facture.tree</field>
+        <field name="model">tjara.facture</field>
+        <field name="arch" type="xml">
+            <tree string="Facture Form">
+                <field name="name"/>
+                <field name="dateFact"/>
+                <field name="description"/>
+                <!--<field name="produit_ids"/>-->
+                <field name="create_uid"/>
+                <button type="object" name="afficher" string="Valider" confirm="Etes vous sur de vouloir confirmer la facture?" class="btn-success"/>
+            </tree>
+        </field>
+    </record>
+    
+        <!-- sequences -->
+        <record id="sequence_tjara_facture" model="ir.sequence">
+            <field name="name">Facture sequence</field>
+            <field name="code">tjara.facture.seq</field>
+            <field name="prefix">F/%(year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>    
+
+    <record id="validation_workflow" model="workflow">
+        <field name="name">tjara.workflow_validation_facture</field>
+        <field name="osv">tjara.facture</field>
+        <field name="on_create">True</field>
+    </record>
+
+    <record id="activity_depart" model="workflow.activity">
+        <field name="wkf_id" ref="validation_workflow"/>
+        <field name="flow_start">True</field>
+        <field name="name">brouillon</field>
+        <field name="kind">function</field>
+        <field name="action">fct_brouillon()</field>
+    </record>
+    <record id="activity_valide" model="workflow.activity">
+        <field name="wkf_id" ref="validation_workflow"/>
+        <!--<field name="flow_stop">True</field>-->
+        <field name="name">validee</field>
+        <field name="kind">function</field>
+        <field name="action">fct_valider()</field>
+    </record>
+    <record id="activity_paye" model="workflow.activity">
+        <field name="wkf_id" ref="validation_workflow"/>
+        <field name="flow_stop">True</field>
+        <field name="name">payee</field>
+        <field name="kind">function</field>
+        <field name="action">fct_payer()</field>
+    </record>
+    <record id="activity_annule" model="workflow.activity">
+        <field name="wkf_id" ref="validation_workflow"/>
+        <field name="flow_stop">True</field>
+        <field name="name">annulee</field>
+        <field name="kind">function</field>
+        <field name="action">fct_annuler()</field>
+    </record>
+
+    <record id="trans_br_va" model="workflow.transition">
+        <field name="act_from" ref="activity_depart"/>
+        <field name="act_to" ref="activity_valide"/>
+        <field name="signal">fct_valider</field>
+    </record>
+    <record id="trans_va_pa" model="workflow.transition">
+        <field name="act_from" ref="activity_valide"/>
+        <field name="act_to" ref="activity_paye"/>
+        <field name="signal">fct_payer</field>
+    </record>
+    <record id="trans_br_an" model="workflow.transition">
+        <field name="act_from" ref="activity_depart"/>
+        <field name="act_to" ref="activity_annule"/>
+        <field name="signal">fct_annuler</field>
+    </record>
+    <record id="trans_an_br" model="workflow.transition">
+        <field name="act_from" ref="activity_annule"/>
+        <field name="act_to" ref="activity_depart"/>
+        <field name="signal">fct_brouillon</field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+
+      <record model="ir.actions.act_window" id="produit_list_action">
+        <field name="name">Produits</field>
+        <field name="res_model">tjara.produit</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Créer votre première produit</p>
+        </field>
+    </record>
+
+    <menuitem id="produit_menu" name="Produits" parent="tjara_menu" action="produit_list_action" sequence="2"/>
+
+    <record model="ir.ui.view" id="produit_form_view">
+        <field name="name">produit.form</field>
+        <field name="model">tjara.produit</field>
+        <field name="arch" type="xml">
+            <form string="Produit Form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="produit_tree_view">
+        <field name="name">produit.tree</field>
+        <field name="model">tjara.produit</field>
+        <field name="arch" type="xml">
+            <tree string="Produit Form">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="qte" sum="true"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="produit_kanban_view" model="ir.ui.view">
+        <field name="name">produit.kanban</field>
+        <field name="model">tjara.produit</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+    
+
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//models/Facture.py=utf-8
+encoding//models/LigneFacture.py=utf-8
+encoding//models/Produit.py=utf-8
+encoding//models/__init__.py=utf-8
+encoding//models/attachment.py=utf-8
+encoding//models/models.py=utf-8
+encoding/__init__.py=utf-8
+encoding/__manifest__.py=utf-8
